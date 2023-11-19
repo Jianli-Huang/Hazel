@@ -99,7 +99,7 @@ namespace Hazel {
 			}
 		});
 
-		glfwSetCharCallback (m_Window, [](GLFWwindow* window, unsigned int keycode)
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
