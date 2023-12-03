@@ -6,10 +6,8 @@ extern Hazel::Application* Hazel::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	printf("1111\n");
 	Hazel::Log::Init();
 	HZ_CORE_WARN("Initialized Log!");
-	printf("2222\n");
 	int a = 4;
 	HZ_INFO("Hello var= {0}", a);
 
