@@ -46,6 +46,9 @@
     <Filter Include="src\Platform\OpenGL">
       <UniqueIdentifier>{35a27839-ce97-453c-ac63-ff70c28f59c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Hazel\Core">
+      <UniqueIdentifier>{9a8daa1d-0c0c-4e68-8bc6-ab733de103f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Hazel.h">
@@ -1371,6 +1374,7 @@
     <ClInclude Include="src\Hazel\Renderer\RendererCommand.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Hazel\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\Hazel\Core\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Application.cpp">
