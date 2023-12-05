@@ -8,7 +8,7 @@ class ExampleLayer :public Hazel::Layer
 {
 public:
 	ExampleLayer()
-		:Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_SquarePosition(0.0f)
+		:Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
 	{
 		m_VertexArray.reset(Hazel::VertexArray::Create());
 
@@ -111,11 +111,13 @@ public:
 			
 			layout(location = 0) out vec4 color;
 
+			uniform vec4 u_color;
+
 			in vec3 v_Position;
 
 			void main()
 			{
-				color = vec4(0.3, 0.0, 0.0, 1.0);
+				color = u_color;
 			}
 		)";
 
@@ -163,10 +165,22 @@ public:
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
+		glm::vec4 redColor(0.8f, 0.2f, 0.3f, 1.0f);
+		glm::vec4 blueColor(0.2f, 0.3f, 0.8f, 1.0f);
 		for (int i = 0; i < 5; i++)
 		{
 			glm::vec3 pos(i*0.11f, 0.0f, 0.0f);
 			glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+
+			if (i % 2 == 0)
+			{
+				m_Shader2->UploadUniformFloat4("u_color", redColor);
+			}
+			else
+			{
+				m_Shader2->UploadUniformFloat4("u_color", blueColor);
+			}
+
 			Hazel::Renderer::Submit(m_Shader2, m_SquareVA, transform);
 		}
 
