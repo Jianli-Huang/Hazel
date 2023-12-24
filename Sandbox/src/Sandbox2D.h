@@ -23,6 +23,7 @@ private:
 	Hazel::Ref<Hazel::VertexArray> m_SquareVA;
 
 	Hazel::Ref<Hazel::Texture2D> m_CheckerboardTexture;
+	Hazel::Ref<Hazel::Texture2D> m_SpriteSheet;
 
 	glm::vec4 m_SquareColor = { 1.0f, 0.0f, 0.0f, 1.0f };
 

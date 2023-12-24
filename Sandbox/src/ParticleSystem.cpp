@@ -60,6 +60,8 @@ void ParticleSystem::OnRender(Hazel::OrthographicCamera& camera)
 			continue;
 
 		float life = particle.LifeRemaining / particle.LifeTime;
+		if (life < 0) life = 0;
+
 		glm::vec4 color = glm::lerp(particle.ColorEnd, particle.ColorBegin, life);
 
 		float size = glm::lerp(particle.SizeEnd, particle.SizeBegin, life);
