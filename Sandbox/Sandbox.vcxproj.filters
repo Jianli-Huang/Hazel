@@ -26,4 +26,7 @@
     <None Include="assets\shaders\FlatColor.glsl" />
     <None Include="assets\shaders\Texture.glsl" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\game\textures\RPGpack_sheet_2X.png" />
+  </ItemGroup>
 </Project>
