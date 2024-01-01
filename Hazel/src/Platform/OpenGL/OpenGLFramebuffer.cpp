@@ -70,6 +70,7 @@ namespace Hazel
 			return;
 		}
 
+		
 		m_Specification.Width = width;
 		m_Specification.Height = height;
 
