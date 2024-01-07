@@ -9,10 +9,6 @@
 
 namespace Hazel
 {
-	static void DoMath(const glm::mat4& trasnform)
-	{
-
-	}
 
 	Scene::Scene()
 	{
@@ -39,12 +35,12 @@ namespace Hazel
 			{
 				if (!nsc.Instance)
 				{
-					nsc.InstantiateFunction();
+					nsc.Instance = nsc.InstantiateScript();
 					nsc.Instance->m_Entity = Entity{ entity, this };
-					nsc.OnCreateFunction(nsc.Instance);
+					nsc.Instance->OnCreate();
 				}
 
-				nsc.OnUpdateFunction(nsc.Instance, ts);
+				nsc.Instance->OnUpdate(ts);
 			});
 		}
 
