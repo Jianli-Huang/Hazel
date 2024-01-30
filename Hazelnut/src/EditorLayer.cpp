@@ -118,6 +118,8 @@ namespace Hazel
 		Hazel::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		Hazel::RendererCommand::Clear();
 
+		m_Framebuffer->ClearAttachment(1, -1);
+
 		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 
 		auto [mx, my] = ImGui::GetMousePos();
