@@ -134,7 +134,10 @@ namespace Hazel
 		if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
 		{
 			int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
-			HZ_CORE_WARN("Mouse = {0}", pixelData);
+			if (pixelData == -1)
+				m_HoveredEntity = {};
+			else
+				m_HoveredEntity = { (entt::entity)pixelData, m_ActiveScene.get() };
 		}
 
 		m_Framebuffer->Unbind();
@@ -230,6 +233,12 @@ namespace Hazel
 		m_SceneHierarchyPanel.OnImGuiRender();
 
 		ImGui::Begin("Stats");
+
+		std::string name = "None";
+		if (m_HoveredEntity)
+			name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
+		ImGui::Text("Hovered Entity: %s", name.c_str());
+
 		auto stats = Hazel::Renderer2D::GetStats();
 		ImGui::Text("Renderer2D Stats:");
 		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
