@@ -6,6 +6,8 @@
 #include "Hazel/Scene/Entity.h"
 #include "Hazel/Scene/Components.h"
 
+#include <filesystem>
+
 namespace Hazel
 {
 	class SceneHierarchyPanel
