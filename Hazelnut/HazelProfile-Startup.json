@@ -1,1 +1,1 @@
-{"otherData": {},"traceEvents":[{"cat":"function","dur":39,"name":"void __cdecl Hazel::OpenGLVertexArray::AddVertexBuffer(const class std::shared_ptr<class Hazel::VertexBuffer> &)","ph":"X","pid":0,"tid":760832301,"ts":314120721572}]}
+{"otherData": {},"traceEvents":[{"cat":"function","dur":59,"name":"void __cdecl Hazel::OpenGLVertexArray::AddVertexBuffer(const class std::shared_ptr<class Hazel::VertexBuffer> &)","ph":"X","pid":0,"tid":604404358,"ts":508682668807}]}
