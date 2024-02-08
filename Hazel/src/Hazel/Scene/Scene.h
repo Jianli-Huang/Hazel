@@ -5,6 +5,8 @@
 #include "Hazel/Core/Timestep.h"
 #include "Hazel/Renderer/EditorCamera.h"
 
+class b2World;
+
 namespace Hazel
 {
 	class Entity;
@@ -17,6 +19,9 @@ namespace Hazel
 
 		Entity CreateEntity(const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
+
+		void OnRuntimeStart();
+		void OnRuntimeStop();
 
 		entt::registry& Reg() { return m_Registry; }
 
@@ -31,6 +36,8 @@ namespace Hazel
 	private:
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
+		
+		b2World* m_PhysicsWorld = nullptr;
 
 		friend class Entity;
 		friend class SceneSerializer;
