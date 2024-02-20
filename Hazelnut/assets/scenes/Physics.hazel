@@ -2,23 +2,22 @@ Scene: Untitled
 Entities:
   - Entity: 12837192831273
     TagComponent:
-      Tag: Static Sprite
+      Tag: Camera
     TransformComponent:
-      Translation: [0, -1.58431935, 0]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
-      Scale: [4.74357748, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-    Rigidbody2DComponent:
-      BodyType: Static
-      FixedRotation: false
-    BoxCollider2DComponent:
-      Offset: [0, 0]
-      Size: [0.5, 0.5]
-      Density: 1
-      Friction: 0.5
-      Restitution: 0
-      RestitutionThreshold: 0.5
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 10000
+        OrthograohicSize: 10
+        OrthographicNear: -1
+        OrthographicFar: 1
+      Primary: true
+      FixedAspectRatio: false
   - Entity: 12837192831273
     TagComponent:
       Tag: Dynamic Sprite
@@ -40,19 +39,20 @@ Entities:
       RestitutionThreshold: 0.980000019
   - Entity: 12837192831273
     TagComponent:
-      Tag: Camera
+      Tag: Static Sprite
     TransformComponent:
-      Translation: [0, 0, 0]
+      Translation: [0, -1.58431935, 0]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    CameraComponent:
-      Camera:
-        ProjectionType: 1
-        PerspectiveFOV: 0.785398185
-        PerspectiveNear: 0.00999999978
-        PerspectiveFar: 10000
-        OrthograohicSize: 10
-        OrthographicNear: 1
-        OrthographicFar: -1
-      Primary: true
-      FixedAspectRatio: false
+      Scale: [4.74357748, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
