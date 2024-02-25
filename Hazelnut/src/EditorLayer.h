@@ -34,6 +34,7 @@ namespace Hazel
 		void SerializeScene(Ref<Scene> scene, const std::filesystem::path& path);
 
 		void OnScenePlay();
+		void OnSceneSimulate();
 		void OnSceneStop();
 
 		void OnDuplicateEntity();
@@ -72,13 +73,13 @@ namespace Hazel
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 		ContentBrowserPanel m_ContentBrowserPanel;
 
-		Ref<Texture2D> m_IconPlay, m_IconStop;
+		Ref<Texture2D> m_IconPlay, m_IconStop, m_IconSimulate;
 
 		bool m_ShowPhysicsColliders = false;
 
 		enum class SceneState
 		{
-			Edit = 0, Play = 1
+			Edit = 0, Play = 1, Simulate = 2,
 		};
 
 		SceneState m_SceneState = SceneState::Edit;
