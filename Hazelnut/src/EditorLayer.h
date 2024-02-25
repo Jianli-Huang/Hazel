@@ -23,6 +23,8 @@ namespace Hazel
 		bool OnKeyPressed(KeyPressedEvent& e);
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 
+		void OnOverlayRender();
+
 		void NewScene();
 		void OpenScene();
 		void OpenScene(const std::filesystem::path& path);
@@ -71,6 +73,8 @@ namespace Hazel
 		ContentBrowserPanel m_ContentBrowserPanel;
 
 		Ref<Texture2D> m_IconPlay, m_IconStop;
+
+		bool m_ShowPhysicsColliders = false;
 
 		enum class SceneState
 		{
