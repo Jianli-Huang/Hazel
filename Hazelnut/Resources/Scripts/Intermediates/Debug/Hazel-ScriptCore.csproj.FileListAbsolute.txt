@@ -1,0 +1,6 @@
+D:\Learning\Engine\Hazel\Hazelnut\Resources\Scripts\Intermediates\Debug\Hazel-ScriptCore.csproj.AssemblyReference.cache
+D:\Learning\Engine\Hazel\Hazelnut\Resources\Scripts\Intermediates\Debug\Hazel-ScriptCore.csproj.CoreCompileInputs.cache
+D:\Learning\Engine\Hazel\Hazelnut\Resources\Scripts\Intermediates\Debug\Hazel-ScriptCore.dll
+D:\Learning\Engine\Hazel\Hazelnut\Resources\Scripts\Intermediates\Debug\Hazel-ScriptCore.pdb
+D:\Learning\Engine\Hazel\Hazelnut\Resources\Scripts\Hazel-ScriptCore.dll
+D:\Learning\Engine\Hazel\Hazelnut\Resources\Scripts\Hazel-ScriptCore.pdb

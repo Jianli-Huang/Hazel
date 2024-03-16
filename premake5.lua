@@ -22,6 +22,7 @@ IncludeDir["entt"] = "Hazel/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "Hazel/vendor/yaml-cpp/include"
 IncludeDir["ImGuizmo"] = "Hazel/vendor/ImGuizmo"
 IncludeDir["Box2D"] = "Hazel/vendor/Box2D/include"
+IncludeDir["mono"] = "Hazel/vendor/mono/include"
 
 group "Dependencies"
 	include "Hazel/vendor/GLFW"
@@ -36,7 +37,7 @@ project "Hazel"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "on"
+	staticruntime "off"
 	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -75,7 +76,8 @@ project "Hazel"
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.yaml_cpp}",
 		"%{IncludeDir.ImGuizmo}",
-		"%{IncludeDir.Box2D}"
+		"%{IncludeDir.Box2D}",
+		"%{IncludeDir.mono}"
 	}
 	
 	links
@@ -86,6 +88,7 @@ project "Hazel"
 		"yaml-cpp",
 		"Box2D",
 		"opengl32.lib",
+		"%{wks.location}/Hazel/vendor/mono/lib/%{cfg.buildcfg}/libmono-static-sgen.lib",
 	}
 	
 	filter "files:vendor/ImGuizmo/**.cpp"
@@ -100,6 +103,16 @@ project "Hazel"
 			"HZ_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
+		
+		links
+		{
+			"Mswsock.lib",
+			"Ws2_32.lib",
+			"psapi.lib",
+			"Winmm.lib",
+			"Version.lib",
+			"Bcrypt.lib",
+		}
 
 
 	filter "configurations:Debug"
@@ -108,6 +121,11 @@ project "Hazel"
 		-- staticruntime "off"
 		runtime "Debug"
 		symbols "on"
+		
+		libdirs
+		{
+			"%{prj.name}/vendor/mono/lib/Debug"
+		}
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
@@ -129,7 +147,7 @@ project "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -187,7 +205,7 @@ project "Hazelnut"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -240,3 +258,31 @@ project "Hazelnut"
 		-- staticruntime "off"
 		runtime "Release"
 		optimize "on"
+
+
+project "Hazel-ScriptCore"
+	kind "SharedLib"
+	language "C#"
+	dotnetframework "4.7.2"
+	staticruntime "off"
+
+	targetdir ("Hazelnut/Resources/Scripts")
+	objdir ("Hazelnut/Resources/Scripts/Intermediates")
+
+	files 
+	{
+		"%{prj.name}/Source/**.cs",
+		"%{prj.name}/Properties/**.cs"
+	}
+	
+	filter "configurations:Debug"
+		optimize "Off"
+		symbols "Default"
+
+	filter "configurations:Release"
+		optimize "On"
+		symbols "Default"
+
+	filter "configurations:Dist"
+		optimize "Full"
+		symbols "Off"

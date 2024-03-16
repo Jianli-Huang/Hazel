@@ -9,6 +9,8 @@
 
 #include "glfw/glfw3.h"
 
+#include "Hazel/Scripting/ScriptingEngine.h"
+
 namespace Hazel {
 
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -24,6 +26,7 @@ namespace Hazel {
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 
 		Renderer::Init();
+		ScriptEngine::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -31,7 +34,7 @@ namespace Hazel {
 
 	Application::~Application()
 	{
-		
+		ScriptEngine::Shutdown();
 	}
 
 	void Application::PushLayer(Layer* layer)

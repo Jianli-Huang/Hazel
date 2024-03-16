@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 16
+# Visual Studio Version 17
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hazelnut", "Hazelnut\Hazelnut.vcxproj", "{7052FE3C-5C1F-5948-8538-47F071648ED6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{53E47842-3FC8-3998-A828-34EB942B241A}"
@@ -16,6 +16,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yaml-cpp", "Hazel\vendor\yaml-cpp\yaml-cpp.vcxproj", "{88F1A057-74BE-FB62-9DD7-E90A890331F1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hazel", "Hazel\Hazel.vcxproj", "{99294D0D-053E-75BE-CEBF-181E3A9371EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hazel-ScriptCore", "Hazel-ScriptCore.csproj", "{6432FCE0-502B-1B33-795D-00B865B5FA3E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}"
 EndProject
@@ -68,6 +70,12 @@ Global
 		{99294D0D-053E-75BE-CEBF-181E3A9371EF}.Dist|x64.Build.0 = Dist|x64
 		{99294D0D-053E-75BE-CEBF-181E3A9371EF}.Release|x64.ActiveCfg = Release|x64
 		{99294D0D-053E-75BE-CEBF-181E3A9371EF}.Release|x64.Build.0 = Release|x64
+		{6432FCE0-502B-1B33-795D-00B865B5FA3E}.Debug|x64.ActiveCfg = Debug|x64
+		{6432FCE0-502B-1B33-795D-00B865B5FA3E}.Debug|x64.Build.0 = Debug|x64
+		{6432FCE0-502B-1B33-795D-00B865B5FA3E}.Dist|x64.ActiveCfg = Dist|x64
+		{6432FCE0-502B-1B33-795D-00B865B5FA3E}.Dist|x64.Build.0 = Dist|x64
+		{6432FCE0-502B-1B33-795D-00B865B5FA3E}.Release|x64.ActiveCfg = Release|x64
+		{6432FCE0-502B-1B33-795D-00B865B5FA3E}.Release|x64.Build.0 = Release|x64
 		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Debug|x64.ActiveCfg = Debug|x64
 		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Debug|x64.Build.0 = Debug|x64
 		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Dist|x64.ActiveCfg = Dist|x64
