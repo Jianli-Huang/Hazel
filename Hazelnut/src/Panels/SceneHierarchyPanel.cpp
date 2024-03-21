@@ -5,6 +5,8 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Hazel/Scripting/ScriptingEngine.h"
+
 namespace Hazel
 {
 	extern const std::filesystem::path g_AssetPath;
@@ -236,6 +238,12 @@ namespace Hazel
 				ImGui::CloseCurrentPopup();
 			}
 
+			if (ImGui::MenuItem("Script"))
+			{
+				m_SelectionContext.AddComponent<ScriptComponent>();
+				ImGui::CloseCurrentPopup();
+			}
+
 			if (!m_SelectionContext.HasComponent<SpriteRendererComponent>())
 			{
 				if (ImGui::MenuItem("Sprite Renderer"))
@@ -352,6 +360,29 @@ namespace Hazel
 
 				ImGui::Checkbox("Fixed Apsect Ratio", &component.FixedAspectRatio);
 			}
+		});
+
+		DrawComponent<ScriptComponent>("Script", entity, [](auto& component)
+		{
+			bool scriptClassExists = false;
+
+			const auto& entityClasses = ScriptEngine::GetEntityClasses();
+			if (entityClasses.find(component.ClassName) != entityClasses.end())
+				scriptClassExists = true;
+
+			static char buffer[64];
+			strcpy(buffer, component.ClassName.c_str());
+			
+			if (!scriptClassExists)
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.9f, 0.2f, 0.3f, 1.0f));
+
+			if (ImGui::InputText("Class", buffer, sizeof(buffer)))
+			{
+				component.ClassName = buffer;
+			}
+
+			if (!scriptClassExists)
+				ImGui::PopStyleColor();
 		});
 
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)

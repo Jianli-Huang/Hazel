@@ -21,7 +21,8 @@
     <OutputPath>Hazelnut\Resources\Scripts\</OutputPath>
     <BaseIntermediateOutputPath>Hazelnut\Resources\Scripts\Intermediates\Debug\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -33,7 +34,8 @@
     <OutputPath>Hazelnut\Resources\Scripts\</OutputPath>
     <BaseIntermediateOutputPath>Hazelnut\Resources\Scripts\Intermediates\Release\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -45,7 +47,8 @@
     <OutputPath>Hazelnut\Resources\Scripts\</OutputPath>
     <BaseIntermediateOutputPath>Hazelnut\Resources\Scripts\Intermediates\Dist\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants></DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -56,7 +59,10 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Dist|x64' ">
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hazel-ScriptCore\Source\Input.cs" />
+    <Compile Include="Hazel-ScriptCore\Source\KeyCode.cs" />
     <Compile Include="Hazel-ScriptCore\Source\Main.cs" />
+    <Compile Include="Hazel-ScriptCore\Source\Player.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

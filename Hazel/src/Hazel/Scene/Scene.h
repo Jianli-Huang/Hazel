@@ -39,6 +39,8 @@ namespace Hazel
 
 		void DuplicateEntity(Entity entity);
 
+		Entity GetEntityByUUID(UUID uuid);
+
 		Entity GetPrimaryCameraEntity();
 
 		template<typename... Components>
@@ -53,12 +55,17 @@ namespace Hazel
 		void OnPhysics2DStart();
 		void OnPhysics2DStop();
 
+		void OnScriptingStart();
+		void OnScriptingStop();
+
 		void RenderScene(EditorCamera& camera);
 	private:
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
 		
 		b2World* m_PhysicsWorld = nullptr;
+
+		std::unordered_map<UUID, entt::entity> m_EntityMap;
 
 		friend class Entity;
 		friend class SceneSerializer;
