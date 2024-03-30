@@ -1,16 +1,45 @@
 Scene: Untitled
 Entities:
+  - Entity: 6587514501726352757
+    TagComponent:
+      Tag: Static
+    TransformComponent:
+      Translation: [1.86264515e-09, -1.80533993, 0]
+      Rotation: [0, 0, 0]
+      Scale: [8.88902473, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.779922783, 0, 0, 1]
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
   - Entity: 14646130244938746878
     TagComponent:
-      Tag: Empty Entity
+      Tag: Dynamic
     TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
+      Translation: [0, 0.86963129, 0]
+      Rotation: [0, 0, -0.818434298]
       Scale: [1, 1, 1]
     ScriptComponent:
       ClassName: Sandbox.Player
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 1
+      RestitutionThreshold: 1.97000003
   - Entity: 12238197085750430755
     TagComponent:
       Tag: Camera
@@ -29,3 +58,5 @@ Entities:
         OrthographicFar: 1
       Primary: true
       FixedAspectRatio: false
+    ScriptComponent:
+      ClassName: Sandbox.Camera

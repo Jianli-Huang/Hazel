@@ -61,6 +61,8 @@ namespace Hazel
 		static void OnCreateEntity(Entity entity);
 		static void OnUpdateEntity(Entity entity, Timestep ts);
 
+		static MonoImage* GetCoreAssemblyImage();
+
 		static Scene* GetSceneContext();
 		static std::unordered_map<std::string, Ref<ScriptClass>> GetEntityClasses();
 	private:
@@ -70,7 +72,7 @@ namespace Hazel
 		static void LoadAssemblyClasses(MonoAssembly* assembly);
 
 		friend class ScriptClass;
-
+		friend class ScriptGlue;
 	};
 
 	

@@ -59,9 +59,14 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Dist|x64' ">
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hazel-ScriptCore\Source\Input.cs" />
-    <Compile Include="Hazel-ScriptCore\Source\KeyCode.cs" />
-    <Compile Include="Hazel-ScriptCore\Source\Main.cs" />
+    <Compile Include="Hazel-ScriptCore\Source\Hazel\Input.cs" />
+    <Compile Include="Hazel-ScriptCore\Source\Hazel\InternalCalls.cs" />
+    <Compile Include="Hazel-ScriptCore\Source\Hazel\KeyCode.cs" />
+    <Compile Include="Hazel-ScriptCore\Source\Hazel\Scene\Components.cs" />
+    <Compile Include="Hazel-ScriptCore\Source\Hazel\Scene\Entity.cs" />
+    <Compile Include="Hazel-ScriptCore\Source\Hazel\Vector2.cs" />
+    <Compile Include="Hazel-ScriptCore\Source\Hazel\Vector3.cs" />
+    <Compile Include="Hazel-ScriptCore\Source\Camera.cs" />
     <Compile Include="Hazel-ScriptCore\Source\Player.cs" />
   </ItemGroup>
   <ItemGroup>
