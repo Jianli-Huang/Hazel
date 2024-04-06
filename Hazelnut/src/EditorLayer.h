@@ -36,6 +36,7 @@ namespace Hazel
 		void OnScenePlay();
 		void OnSceneSimulate();
 		void OnSceneStop();
+		void OnScenePause();
 
 		void OnDuplicateEntity();
 
@@ -73,13 +74,13 @@ namespace Hazel
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 		ContentBrowserPanel m_ContentBrowserPanel;
 
-		Ref<Texture2D> m_IconPlay, m_IconStop, m_IconSimulate;
+		Ref<Texture2D> m_IconPlay, m_IconPause, m_IconStop, m_IconSimulate, m_IconStep;
 
 		bool m_ShowPhysicsColliders = false;
 
 		enum class SceneState
 		{
-			Edit = 0, Play = 1, Simulate = 2,
+			Edit = 0, Play = 1, Simulate = 2
 		};
 
 		SceneState m_SceneState = SceneState::Edit;
