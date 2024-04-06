@@ -63,7 +63,6 @@ namespace Hazel
 
 		newScene->m_ViewportWidth = other->m_ViewportWidth;
 		newScene->m_ViewportHeight = other->m_ViewportHeight;
-
 		auto& srcSceneRegistry = other->m_Registry;
 		auto& dstSceneRegistry = newScene->m_Registry;
 		std::unordered_map<UUID, entt::entity> enttMap;
@@ -116,6 +115,7 @@ namespace Hazel
 
 	void Scene::OnRuntimeStart()
 	{
+		m_IsRunning = true;
 		OnPhysics2DStart();
 
 		{
@@ -132,6 +132,7 @@ namespace Hazel
 
 	void Scene::OnRuntimeStop()
 	{
+		m_IsRunning = false;
 		OnPhysics2DStop();
 
 		ScriptEngine::OnRuntimeStop();
@@ -272,7 +273,6 @@ namespace Hazel
 	{
 		m_ViewportWidth = width;
 		m_ViewportHeight = height;
-
 		auto view = m_Registry.view<CameraComponent>();
 		for (auto entity : view)
 		{
@@ -305,6 +305,18 @@ namespace Hazel
 		if (m_EntityMap.find(uuid) != m_EntityMap.end())
 		{
 			return { m_EntityMap.at(uuid), this };
+		}
+		return {};
+	}
+
+	Entity Scene::FindEntityByName(std::string_view name)
+	{
+		auto view = m_Registry.view<TagComponent>();
+		for (auto entity : view)
+		{
+			const TagComponent& tc = view.get<TagComponent>(entity);
+			if (tc.Tag == name)
+				return Entity{ entity, this };
 		}
 		return {};
 	}

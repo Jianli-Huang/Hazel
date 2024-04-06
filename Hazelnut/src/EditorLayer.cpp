@@ -5,6 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Hazel/Scene//SceneSerializer.h"
+#include "Hazel/Scripting/ScriptingEngine.h"
 
 #include "Hazel/Utils/PlatformUtils.h"
 
@@ -112,7 +113,6 @@ namespace Hazel
 			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
-
 
 		Hazel::Renderer2D::ResetStats();
 		m_Framebuffer->Bind();
@@ -253,6 +253,15 @@ namespace Hazel
 				if (ImGui::MenuItem("Exit")) Hazel::Application::Get().Close();
 				ImGui::EndMenu();
 			}
+
+			if (ImGui::BeginMenu("Script"))
+			{
+				if (ImGui::MenuItem("Reload assembly", "Ctrl+R"))
+					ScriptEngine::ReloadAssembly();
+
+				ImGui::EndMenu();
+			}
+
 			ImGui::EndMenuBar();
 		}
 

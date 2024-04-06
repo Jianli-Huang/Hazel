@@ -14,19 +14,23 @@ namespace Sandbox
         private TransformComponent m_Transform;
         private Rigidbody2DComponent m_Rigidbody;
 
+        public float Speed;
+        public float Time;
+
         void OnCreate()
         {
             Console.WriteLine($"Player.OnCreate - {ID}");
 
             m_Transform = GetComponent<TransformComponent>();
             m_Rigidbody = GetComponent<Rigidbody2DComponent>();
+
         }
 
         void OnUpdate(float ts)
         {
-            Console.WriteLine($"Player.OnUpdate: {ts}");
-
-            float speed = 0.1f;
+            //Console.WriteLine($"Player.OnUpdate: {ts}");
+            Time += ts;
+            float speed = Speed;
             Vector3 velocity = Vector3.Zero;
 
             if(Input.IsKeyDown(KeyCode.HZ_KEY_W))
@@ -45,6 +49,20 @@ namespace Sandbox
             else if (Input.IsKeyDown(KeyCode.HZ_KEY_D))
             {
                 velocity.X = 1.0f;
+            }
+
+            Entity cameraEntity = FindEntityByName("Camera");
+            if(cameraEntity != null)
+            {
+                Camera camera = cameraEntity.As<Camera>();
+                if (Input.IsKeyDown(KeyCode.HZ_KEY_Q))
+                {
+                    camera.DistanceFromPlayer += speed * ts;
+                }
+                else if (Input.IsKeyDown(KeyCode.HZ_KEY_E))
+                {
+                    camera.DistanceFromPlayer -= speed * ts;
+                }
             }
 
             velocity *= speed;

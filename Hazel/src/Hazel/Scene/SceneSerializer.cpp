@@ -2,6 +2,8 @@
 #include "SceneSerializer.h"
 #include "Entity.h"
 #include "Components.h"
+#include "Hazel/Scripting/ScriptingEngine.h"
+#include "Hazel/Core/UUID.h"
 
 #include <fstream>
 #define YAML_CPP_STATIC_DEFINE  
@@ -81,10 +83,40 @@ namespace YAML
 			return true;
 		}
 	};
+
+	template<>
+	struct convert<Hazel::UUID>
+	{
+		static Node encode(const Hazel::UUID& uuid)
+		{
+			Node node;
+			node.push_back((uint64_t)uuid);
+			return node;
+		}
+
+		static bool decode(const Node& node, Hazel::UUID& uuid)
+		{
+			uuid = node.as<uint64_t>();
+			return true;
+		}
+	};
 }
 
 namespace Hazel
 {
+#define WRITE_FIELD_TYPE(FieldType, Type)			\
+			case ScriptFieldType::FieldType:		\
+			out << scriptField.GetValue<Type>();	\
+			break;
+
+#define READ_FIELD_TYPE(FieldType, Type)						\
+			case ScriptFieldType::FieldType:					\
+			{													\
+				Type data = scriptField["Data"].as<Type>();	\
+				fieldInstance.SetValue(data);					\
+				break;											\
+			}													\
+
 	YAML::Emitter& operator<< (YAML::Emitter& out, const glm::vec2& v)
 	{
 		out << YAML::Flow;
@@ -167,13 +199,13 @@ namespace Hazel
 		if (entity.HasComponent<CameraComponent>())
 		{
 			out << YAML::Key << "CameraComponent";
-			out << YAML::BeginMap;
+			out << YAML::BeginMap; // CameraComponent
 
 			auto& cameraComponent = entity.GetComponent<CameraComponent>();
 			auto& camera = cameraComponent.Camera;
 
 			out << YAML::Key << "Camera" << YAML::Value;
-			out << YAML::BeginMap;
+			out << YAML::BeginMap; // Camera
 			out << YAML::Key << "ProjectionType" << YAML::Value << (int)camera.GetProjectionType();
 			out << YAML::Key << "PerspectiveFOV" << YAML::Value << camera.GetPerspectiveVerticalFOV();
 			out << YAML::Key << "PerspectiveNear" << YAML::Value << camera.GetPerspectiveNearClip();
@@ -181,14 +213,15 @@ namespace Hazel
 			out << YAML::Key << "OrthograohicSize" << YAML::Value << camera.GetOrthographicSize();
 			out << YAML::Key << "OrthographicNear" << YAML::Value << camera.GetOrthographicNearClip();
 			out << YAML::Key << "OrthographicFar" << YAML::Value << camera.GetOrthographicFarClip();
-			out << YAML::EndMap;
+			out << YAML::EndMap; // Camera
 
 			out << YAML::Key << "Primary" << YAML::Value << cameraComponent.Primary;
 			out << YAML::Key << "FixedAspectRatio" << YAML::Value << cameraComponent.FixedAspectRatio;
 
-			out << YAML::EndMap;
+			out << YAML::EndMap; // CameraComponent
 		}
 
+		
 		if (entity.HasComponent<ScriptComponent>())
 		{
 			auto& scriptComponent = entity.GetComponent<ScriptComponent>();
@@ -196,6 +229,49 @@ namespace Hazel
 			out << YAML::Key << "ScriptComponent";
 			out << YAML::BeginMap;
 			out << YAML::Key << "ClassName" << YAML::Value << scriptComponent.ClassName;
+
+			Ref<ScriptClass> entityClass = ScriptEngine::GetEntityClass(scriptComponent.ClassName);
+			const auto& fields = entityClass->GetFields();
+			if (fields.size() > 0)
+			{
+				out << YAML::Key << "ScriptFields" << YAML::Value;
+				auto& entityFields = ScriptEngine::GetScriptFieldMap(entity);
+				out << YAML::BeginSeq;
+				for (const auto& [name, field] : fields)
+				{
+					if (entityFields.find(name) == entityFields.end())
+						continue;
+
+					out << YAML::BeginMap;
+					out << YAML::Key << "Name" << YAML::Value << name;
+					out << YAML::Key << "Type" << YAML::Value << Utils::ScriptFieldTypeToString(field.Type);
+
+					out << YAML::Key << "Data" << YAML::Value;
+					ScriptFieldInstance& scriptField = entityFields.at(name);
+
+					switch (field.Type)
+					{
+						WRITE_FIELD_TYPE(Float, float);
+						WRITE_FIELD_TYPE(Double, double);
+						WRITE_FIELD_TYPE(Bool, bool);
+						WRITE_FIELD_TYPE(Char, char);
+						WRITE_FIELD_TYPE(Byte, int8_t);
+						WRITE_FIELD_TYPE(Short, int16_t);
+						WRITE_FIELD_TYPE(Int, int32_t);
+						WRITE_FIELD_TYPE(Long, int64_t);
+						WRITE_FIELD_TYPE(UShort, uint16_t);
+						WRITE_FIELD_TYPE(UInt, uint32_t);
+						WRITE_FIELD_TYPE(ULong, uint64_t);
+						WRITE_FIELD_TYPE(Vector2, glm::vec2);
+						WRITE_FIELD_TYPE(Vector3, glm::vec3);
+						WRITE_FIELD_TYPE(Vector4, glm::vec4);
+						WRITE_FIELD_TYPE(Entity, UUID);
+					}
+					out << YAML::EndMap;
+				}
+				out << YAML::EndSeq;
+			}
+
 			out << YAML::EndMap;
 		}
 
@@ -343,14 +419,14 @@ namespace Hazel
 
 					auto& cameraProps = cameraComponent["Camera"];
 					cc.Camera.SetProjectionType((SceneCamera::ProjectionType)cameraProps["ProjectionType"].as<int>());
-
 					cc.Camera.SetPerspectiveVerticalFOV(cameraProps["PerspectiveFOV"].as<float>());
 					cc.Camera.SetPerspectiveNearClip(cameraProps["PerspectiveNear"].as<float>());
 					cc.Camera.SetPerspectiveFarClip(cameraProps["PerspectiveFar"].as<float>());
 
+
 					cc.Camera.SetOrthographicSize(cameraProps["OrthograohicSize"].as<float>());
-					cc.Camera.SetOrthographicFarClip(cameraProps["OrthographicNear"].as<float>());
-					cc.Camera.SetOrthographicNearClip(cameraProps["OrthographicFar"].as<float>());
+					cc.Camera.SetOrthographicNearClip(cameraProps["OrthographicNear"].as<float>()); 
+					cc.Camera.SetOrthographicFarClip(cameraProps["OrthographicFar"].as<float>());
 
 					cc.Primary = cameraComponent["Primary"].as<bool>();
 					cc.FixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
@@ -361,6 +437,44 @@ namespace Hazel
 				{
 					auto& src = deserializedEntity.AddComponent<ScriptComponent>();
 					src.ClassName = scriptComponent["ClassName"].as<std::string>();
+
+					auto scriptFields = scriptComponent["ScriptFields"];
+					if (scriptFields)
+					{
+						Ref<ScriptClass> entityClass = ScriptEngine::GetEntityClass(src.ClassName);
+						const auto& fields = entityClass->GetFields();
+						auto& entityFeilds = ScriptEngine::GetScriptFieldMap(deserializedEntity);
+
+						for (auto scriptField : scriptFields)
+						{
+							std::string name = scriptField["Name"].as<std::string>();
+							std::string typeString = scriptField["Type"].as<std::string>();
+							ScriptFieldType type = Utils::ScriptFieldTypeFromString(typeString);
+
+							ScriptFieldInstance& fieldInstance = entityFeilds[name];
+							if (fields.find(name) == fields.end()) continue;
+							fieldInstance.Field = fields.at(name);
+
+							switch (type)
+							{
+								READ_FIELD_TYPE(Float, float);
+								READ_FIELD_TYPE(Double, double);
+								READ_FIELD_TYPE(Bool, bool);
+								READ_FIELD_TYPE(Char, char);
+								READ_FIELD_TYPE(Byte, int8_t);
+								READ_FIELD_TYPE(Short, int16_t);
+								READ_FIELD_TYPE(Int, int32_t);
+								READ_FIELD_TYPE(Long, int64_t);
+								READ_FIELD_TYPE(UShort, uint16_t);
+								READ_FIELD_TYPE(UInt, uint32_t);
+								READ_FIELD_TYPE(ULong, uint64_t);
+								READ_FIELD_TYPE(Vector2, glm::vec2);
+								READ_FIELD_TYPE(Vector3, glm::vec3);
+								READ_FIELD_TYPE(Vector4, glm::vec4);
+								READ_FIELD_TYPE(Entity, UUID);
+							}
+						}
+					}
 				}
 
 				auto spriteRendererComponent = entity["SpriteRendererComponent"];
