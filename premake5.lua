@@ -23,6 +23,7 @@ IncludeDir["yaml_cpp"] = "Hazel/vendor/yaml-cpp/include"
 IncludeDir["ImGuizmo"] = "Hazel/vendor/ImGuizmo"
 IncludeDir["Box2D"] = "Hazel/vendor/Box2D/include"
 IncludeDir["mono"] = "Hazel/vendor/mono/include"
+IncludeDir["filewatch"] = "Hazel/vendor/filewatch"
 
 group "Dependencies"
 	include "Hazel/vendor/GLFW"
@@ -77,7 +78,8 @@ project "Hazel"
 		"%{IncludeDir.yaml_cpp}",
 		"%{IncludeDir.ImGuizmo}",
 		"%{IncludeDir.Box2D}",
-		"%{IncludeDir.mono}"
+		"%{IncludeDir.mono}",
+		"%{IncludeDir.filewatch}"
 	}
 	
 	links
@@ -222,7 +224,8 @@ project "Hazelnut"
 		"Hazel/src",
 		"Hazel/vendor",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.filewatch}"
 	}
 
 	links

@@ -33,10 +33,12 @@ namespace Hazel {
 
 		inline static Application& Get() { return *s_Instance; }
 	
+		void SubmitToMainThread(const std::function<void()>& function);
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 
+		void ExecuteMainThreadQueue();
 	private:
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
@@ -45,6 +47,9 @@ namespace Hazel {
 		LayerStack m_LayerStack;
 		Timestep m_Timestep;
 		float m_LastFrameTime = 0.0f;
+
+		std::vector<std::function<void()>> m_MainThreadQueue;
+		std::mutex m_MainThreadQueueMutex;
 	private:
 		static Application* s_Instance;
 	};

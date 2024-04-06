@@ -54,6 +54,12 @@ namespace Hazel {
 		m_Running = false;
 	}
 
+	void Application::SubmitToMainThread(const std::function<void()>& function)
+	{
+		std::scoped_lock<std::mutex> lock(m_MainThreadQueueMutex);
+		m_MainThreadQueue.emplace_back(function);
+	}
+
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
@@ -77,6 +83,8 @@ namespace Hazel {
 			float time = (float)glfwGetTime();
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
+
+			ExecuteMainThreadQueue();
 
 			if (!m_Minimized)
 			{
@@ -110,5 +118,15 @@ namespace Hazel {
 		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 
 		return false;
+	}
+
+	void Application::ExecuteMainThreadQueue()
+	{
+		std::scoped_lock<std::mutex> lock(m_MainThreadQueueMutex);
+
+		for (auto& func : m_MainThreadQueue)
+			func();
+
+		m_MainThreadQueue.clear();
 	}
 }

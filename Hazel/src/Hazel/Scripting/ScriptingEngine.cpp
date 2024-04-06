@@ -8,6 +8,9 @@
 #include "mono/metadata/tabledefs.h"
 
 #include "Hazel/Core/UUID.h"
+#include "Hazel/Core/Application.h"
+
+#include "FileWatch.h"
 
 namespace Hazel
 {
@@ -108,8 +111,10 @@ namespace Hazel
 
 		std::unordered_map<std::string, Ref<ScriptClass>> EntityClasses;
 		std::unordered_map<UUID, Ref<ScriptInstance>> EntityInstances;
-
 		std::unordered_map<UUID, ScriptFieldMap> EntityScriptFields;
+
+		Scope<filewatch::FileWatch<std::string>> AppAssemblyFileWatcher;
+		bool AssemblyReloadPending = false;
 
 		//runtime
 		Scene* SceneContext = nullptr;
@@ -156,6 +161,7 @@ namespace Hazel
 		void* stringParam = monoString;
 		s_Data->EntityClass.InvokeMethod(instance, printCustomMessageFunc, &stringParam);
 #endif
+
 	}
 
 	void ScriptEngine::Shutdown()
@@ -182,6 +188,25 @@ namespace Hazel
 		s_Data->RootDomain = nullptr;
 	}
 
+	static void OnAppAssemblyFileSystemEvent(const std::string& path, const filewatch::Event change_type)
+	{
+		std::cout << "111\n";
+		if (!s_Data->AssemblyReloadPending && change_type == filewatch::Event::modified)
+		{
+			std::cout << "222\n";
+			s_Data->AssemblyReloadPending = true;
+
+			using namespace std::chrono_literals;
+			std::this_thread::sleep_for(500ms);
+
+			Application::Get().SubmitToMainThread([]() 
+			{
+				s_Data->AppAssemblyFileWatcher.reset();
+				ScriptEngine::ReloadAssembly(); 
+			});
+		}
+	}
+
 	void ScriptEngine::LoadAssembly(const std::filesystem::path& filepath)
 	{
 		s_Data->AppDomain = mono_domain_create_appdomain("HazelScriptRuntime", nullptr);
@@ -190,6 +215,10 @@ namespace Hazel
 		s_Data->CoreAssemblyFilepath = filepath;
 		s_Data->CoreAssembly = Utils::LoadMonoAssembly(filepath);
 		s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
+
+		s_Data->AppAssemblyFileWatcher = CreateScope<filewatch::FileWatch<std::string>>(filepath.string(), OnAppAssemblyFileSystemEvent);
+		s_Data->AssemblyReloadPending = false;
+		std::cout << "333\n";
 	}
 
 	void ScriptEngine::ReloadAssembly()

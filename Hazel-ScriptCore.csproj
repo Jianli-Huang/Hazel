@@ -21,8 +21,7 @@
     <OutputPath>Hazelnut\Resources\Scripts\</OutputPath>
     <BaseIntermediateOutputPath>Hazelnut\Resources\Scripts\Intermediates\Debug\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -34,8 +33,7 @@
     <OutputPath>Hazelnut\Resources\Scripts\</OutputPath>
     <BaseIntermediateOutputPath>Hazelnut\Resources\Scripts\Intermediates\Release\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -47,8 +45,7 @@
     <OutputPath>Hazelnut\Resources\Scripts\</OutputPath>
     <BaseIntermediateOutputPath>Hazelnut\Resources\Scripts\Intermediates\Dist\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -59,6 +56,7 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Dist|x64' ">
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hazel-ScriptCore\Source\Camera.cs" />
     <Compile Include="Hazel-ScriptCore\Source\Hazel\Input.cs" />
     <Compile Include="Hazel-ScriptCore\Source\Hazel\InternalCalls.cs" />
     <Compile Include="Hazel-ScriptCore\Source\Hazel\KeyCode.cs" />
@@ -66,7 +64,6 @@
     <Compile Include="Hazel-ScriptCore\Source\Hazel\Scene\Entity.cs" />
     <Compile Include="Hazel-ScriptCore\Source\Hazel\Vector2.cs" />
     <Compile Include="Hazel-ScriptCore\Source\Hazel\Vector3.cs" />
-    <Compile Include="Hazel-ScriptCore\Source\Camera.cs" />
     <Compile Include="Hazel-ScriptCore\Source\Player.cs" />
   </ItemGroup>
   <ItemGroup>
