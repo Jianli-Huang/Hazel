@@ -6,6 +6,8 @@
 #include "mono/metadata/assembly.h"
 #include "mono/metadata/object.h"
 #include "mono/metadata/tabledefs.h"
+#include "mono/metadata/mono-debug.h"
+#include "mono/metadata/threads.h"
 
 #include "Hazel/Core/UUID.h"
 #include "Hazel/Core/Application.h"
@@ -61,7 +63,7 @@ namespace Hazel
 			return buffer;
 		}
 
-		static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath)
+		static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath, bool loadPDB = false)
 		{
 			uint32_t fileSize = 0;
 			char* fileData = Utils::ReadBytes(assemblyPath, &fileSize);
@@ -80,6 +82,20 @@ namespace Hazel
 			mono_image_close(image);
 
 			delete[] fileData;
+			
+			if (loadPDB)
+			{
+				std::filesystem::path pdbPath = assemblyPath;
+				pdbPath.replace_extension(".pdb");
+
+				if (std::filesystem::exists(pdbPath))
+				{
+					uint32_t pdbFileSize = 0;
+					char* pdbFileData = ReadBytes(assemblyPath, &pdbFileSize);
+					mono_debug_open_image_from_memory(image, (const mono_byte*)pdbFileData, pdbFileSize);
+					delete[] pdbFileData;
+				}
+			}
 
 			return assembly;
 		}
@@ -115,6 +131,8 @@ namespace Hazel
 
 		Scope<filewatch::FileWatch<std::string>> AppAssemblyFileWatcher;
 		bool AssemblyReloadPending = false;
+
+		bool EnableDebugging = true;
 
 		//runtime
 		Scene* SceneContext = nullptr;
@@ -172,9 +190,28 @@ namespace Hazel
 	
 	void ScriptEngine::InitMono()
 	{
-		mono_set_assemblies_path("mono/lib");
+		mono_set_assemblies_path("mono/lib"); 
+
+		if (s_Data->EnableDebugging)
+		{
+			const char* argv[2] = {
+				"--debugger-agent=transport=dt_socket,address=127.0.0.1:2550,server=y,suspend=n,loglevel=3,logfile=MonoDebugger.log",
+				"--soft-breakpoints"
+			};
+
+			mono_jit_parse_options(2, (char**)argv);
+			mono_debug_init(MONO_DEBUG_FORMAT_MONO);
+		}
+
 		MonoDomain* rootDomain = mono_jit_init("HazelJITRuntime");
 		s_Data->RootDomain = rootDomain;
+
+		if (s_Data->EnableDebugging)
+		{
+			mono_debug_domain_create(s_Data->RootDomain);
+		}
+
+		mono_thread_set_main(mono_thread_current());
 	}
 
 	void ScriptEngine::ShutdownMono()
@@ -190,10 +227,8 @@ namespace Hazel
 
 	static void OnAppAssemblyFileSystemEvent(const std::string& path, const filewatch::Event change_type)
 	{
-		std::cout << "111\n";
 		if (!s_Data->AssemblyReloadPending && change_type == filewatch::Event::modified)
 		{
-			std::cout << "222\n";
 			s_Data->AssemblyReloadPending = true;
 
 			using namespace std::chrono_literals;
@@ -213,12 +248,11 @@ namespace Hazel
 		mono_domain_set(s_Data->AppDomain, true);
 
 		s_Data->CoreAssemblyFilepath = filepath;
-		s_Data->CoreAssembly = Utils::LoadMonoAssembly(filepath);
+		s_Data->CoreAssembly = Utils::LoadMonoAssembly(filepath, s_Data->EnableDebugging);
 		s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
 
 		s_Data->AppAssemblyFileWatcher = CreateScope<filewatch::FileWatch<std::string>>(filepath.string(), OnAppAssemblyFileSystemEvent);
 		s_Data->AssemblyReloadPending = false;
-		std::cout << "333\n";
 	}
 
 	void ScriptEngine::ReloadAssembly()
