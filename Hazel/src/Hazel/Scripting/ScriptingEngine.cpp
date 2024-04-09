@@ -11,6 +11,7 @@
 
 #include "Hazel/Core/UUID.h"
 #include "Hazel/Core/Application.h"
+#include "Hazel/Core/Buffer.h"
 
 #include "FileWatch.h"
 
@@ -37,39 +38,39 @@ namespace Hazel
 
 	namespace Utils
 	{
-		static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize)
+		static Buffer ReadFileBinary(const std::filesystem::path& filepath)
 		{
 			std::ifstream stream(filepath, std::ios::binary | std::ios::ate);
 
 			if (!stream)
 			{
-				return nullptr;
+				// Failed to open the file
+				return {};
 			}
+
 
 			std::streampos end = stream.tellg();
 			stream.seekg(0, std::ios::beg);
-			uint32_t size = end - stream.tellg();
+			uint64_t size = end - stream.tellg();
 
 			if (size == 0)
 			{
-				return nullptr;
+				// File is empty
+				return {};
 			}
 
-			char* buffer = new char[size];
-			stream.read((char*)buffer, size);
+			Buffer buffer(size);
+			stream.read(buffer.As<char>(), size);
 			stream.close();
-
-			*outSize = size;
 			return buffer;
 		}
 
 		static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath, bool loadPDB = false)
 		{
-			uint32_t fileSize = 0;
-			char* fileData = Utils::ReadBytes(assemblyPath, &fileSize);
+			ScopeBuffer fileData = ReadFileBinary(assemblyPath);
 
 			MonoImageOpenStatus status;
-			MonoImage* image = mono_image_open_from_data_full(fileData, fileSize, 1, &status, 0);
+			MonoImage* image = mono_image_open_from_data_full(fileData.As<char>(), fileData.Size(), 1, &status, 0);
 
 			if (status != MONO_IMAGE_OK)
 			{
@@ -81,8 +82,6 @@ namespace Hazel
 			MonoAssembly* assembly = mono_assembly_load_from_full(image, string.c_str(), &status, 0);
 			mono_image_close(image);
 
-			delete[] fileData;
-			
 			if (loadPDB)
 			{
 				std::filesystem::path pdbPath = assemblyPath;
@@ -90,10 +89,8 @@ namespace Hazel
 
 				if (std::filesystem::exists(pdbPath))
 				{
-					uint32_t pdbFileSize = 0;
-					char* pdbFileData = ReadBytes(assemblyPath, &pdbFileSize);
-					mono_debug_open_image_from_memory(image, (const mono_byte*)pdbFileData, pdbFileSize);
-					delete[] pdbFileData;
+					ScopeBuffer pdbFileData = ReadFileBinary(pdbPath);
+					mono_debug_open_image_from_memory(image, pdbFileData.As<const mono_byte>(), pdbFileData.Size());
 				}
 			}
 
