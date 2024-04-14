@@ -1486,6 +1486,8 @@
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Core\Buffer.h" />
+    <ClInclude Include="src\Hazel\Project\Project.h" />
+    <ClInclude Include="src\Hazel\Project\ProjectSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -1608,5 +1610,7 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Hazel\Project\Project.cpp" />
+    <ClCompile Include="src\Hazel\Project\ProjectSerializer.cpp" />
   </ItemGroup>
 </Project>

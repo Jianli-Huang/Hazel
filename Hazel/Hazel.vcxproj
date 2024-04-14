@@ -165,6 +165,8 @@
     <ClInclude Include="src\Hazel\Events\MouseEvent.h" />
     <ClInclude Include="src\Hazel\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Hazel\Math\Math.h" />
+    <ClInclude Include="src\Hazel\Project\Project.h" />
+    <ClInclude Include="src\Hazel\Project\ProjectSerializer.h" />
     <ClInclude Include="src\Hazel\Renderer\Buffer.h" />
     <ClInclude Include="src\Hazel\Renderer\Camera.h" />
     <ClInclude Include="src\Hazel\Renderer\EditorCamera.h" />
@@ -626,6 +628,8 @@
     <ClCompile Include="src\Hazel\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Hazel\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Hazel\Math\Math.cpp" />
+    <ClCompile Include="src\Hazel\Project\Project.cpp" />
+    <ClCompile Include="src\Hazel\Project\ProjectSerializer.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Hazel\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Framebuffer.cpp" />
