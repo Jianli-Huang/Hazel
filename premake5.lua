@@ -24,6 +24,8 @@ IncludeDir["ImGuizmo"] = "Hazel/vendor/ImGuizmo"
 IncludeDir["Box2D"] = "Hazel/vendor/Box2D/include"
 IncludeDir["mono"] = "Hazel/vendor/mono/include"
 IncludeDir["filewatch"] = "Hazel/vendor/filewatch"
+IncludeDir["msdf_atlas_gen"] = "Hazel/vendor/msdf-atlas-gen/msdf-atlas-gen"
+IncludeDir["msdfgen"] = "Hazel/vendor/msdf-atlas-gen/msdfgen"
 
 group "Dependencies"
 	include "Hazel/vendor/GLFW"
@@ -31,6 +33,7 @@ group "Dependencies"
 	include "Hazel/vendor/imgui"
 	include "Hazel/vendor/yaml-cpp"
 	include "Hazel/vendor/Box2D"
+	include "Hazel/vendor/msdf-atlas-gen"
 group ""
 
 project "Hazel"
@@ -79,7 +82,9 @@ project "Hazel"
 		"%{IncludeDir.ImGuizmo}",
 		"%{IncludeDir.Box2D}",
 		"%{IncludeDir.mono}",
-		"%{IncludeDir.filewatch}"
+		"%{IncludeDir.filewatch}",
+		"%{IncludeDir.msdf_atlas_gen}",
+		"%{IncludeDir.msdfgen}"
 	}
 	
 	links
@@ -90,6 +95,7 @@ project "Hazel"
 		"yaml-cpp",
 		"Box2D",
 		"opengl32.lib",
+		"msdf-atlas-gen",
 		"%{wks.location}/Hazel/vendor/mono/lib/%{cfg.buildcfg}/libmono-static-sgen.lib",
 	}
 	

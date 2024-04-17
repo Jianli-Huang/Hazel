@@ -22,6 +22,9 @@
     <Filter Include="src\Hazel\Math">
       <UniqueIdentifier>{C91259A8-B5E0-4CAE-9E74-BDD48AE12813}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Hazel\Project">
+      <UniqueIdentifier>{36CC448E-A2E2-4224-EB59-CE4557AF13AC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Hazel\Renderer">
       <UniqueIdentifier>{9669EB43-824D-AC99-EBAD-A6ECD7B0961B}</UniqueIdentifier>
     </Filter>
@@ -78,6 +81,9 @@
     <ClInclude Include="src\Hazel\Core\Application.h">
       <Filter>src\Hazel\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Core\Buffer.h">
+      <Filter>src\Hazel\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Core\Core.h">
       <Filter>src\Hazel\Core</Filter>
     </ClInclude>
@@ -132,6 +138,12 @@
     <ClInclude Include="src\Hazel\Math\Math.h">
       <Filter>src\Hazel\Math</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Project\Project.h">
+      <Filter>src\Hazel\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Project\ProjectSerializer.h">
+      <Filter>src\Hazel\Project</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\Buffer.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
@@ -139,6 +151,9 @@
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\EditorCamera.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Font.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\Framebuffer.h">
@@ -1485,9 +1500,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Core\Buffer.h" />
-    <ClInclude Include="src\Hazel\Project\Project.h" />
-    <ClInclude Include="src\Hazel\Project\ProjectSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -1514,10 +1526,19 @@
     <ClCompile Include="src\Hazel\Math\Math.cpp">
       <Filter>src\Hazel\Math</Filter>
     </ClCompile>
+    <ClCompile Include="src\Hazel\Project\Project.cpp">
+      <Filter>src\Hazel\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Project\ProjectSerializer.cpp">
+      <Filter>src\Hazel\Project</Filter>
+    </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp">
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\EditorCamera.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Font.cpp">
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\Framebuffer.cpp">
@@ -1610,7 +1631,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Hazel\Project\Project.cpp" />
-    <ClCompile Include="src\Hazel\Project\ProjectSerializer.cpp" />
   </ItemGroup>
 </Project>

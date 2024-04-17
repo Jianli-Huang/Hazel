@@ -6,6 +6,7 @@
 
 #include "Hazel/Scene//SceneSerializer.h"
 #include "Hazel/Scripting/ScriptingEngine.h"
+#include "Hazel/Renderer/Font.h"
 
 #include "Hazel/Utils/PlatformUtils.h"
 
@@ -20,7 +21,7 @@ namespace Hazel
 	EditorLayer::EditorLayer()
 		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f)
 	{
-
+		Font font("C:\\Windows\\Fonts\\arialbd.ttf");
 	}
 
 	void EditorLayer::OnAttach()
