@@ -18,10 +18,12 @@ namespace Hazel
 {
 	extern const std::filesystem::path g_AssetPath;
 
+	static Font* s_Font;
+
 	EditorLayer::EditorLayer()
 		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f)
 	{
-		Font font("C:\\Windows\\Fonts\\arialbd.ttf");
+		s_Font = new Font("C:\\Windows\\Fonts\\arialbd.ttf");
 	}
 
 	void EditorLayer::OnAttach()
@@ -289,6 +291,7 @@ namespace Hazel
 
 		ImGui::Begin("Settings");
 		ImGui::Checkbox("Show physics colliders", &m_ShowPhysicsColliders);
+		ImGui::Image((ImTextureID)s_Font->GetAtlasTexture()->GetRendererID(), { 512, 512 }, { 0, 1 }, {1, 0});
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0,0 });
