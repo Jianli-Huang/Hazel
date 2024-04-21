@@ -231,7 +231,9 @@ project "Hazelnut"
 		"Hazel/vendor",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.filewatch}"
+		"%{IncludeDir.filewatch}",
+		"%{IncludeDir.msdf_atlas_gen}",
+		"%{IncludeDir.msdfgen}"
 	}
 
 	links

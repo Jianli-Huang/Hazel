@@ -18,12 +18,12 @@ namespace Hazel
 {
 	extern const std::filesystem::path g_AssetPath;
 
-	static Font* s_Font;
+	static Ref<Font> s_Font;
 
 	EditorLayer::EditorLayer()
 		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f)
 	{
-		s_Font = new Font("C:\\Windows\\Fonts\\arialbd.ttf");
+		s_Font = Font::GetDefault();
 	}
 
 	void EditorLayer::OnAttach()
